@@ -1,0 +1,6 @@
+0,  Thank you for playing Zak's birthday game
+1,  The room is grey and bland. It s cold and freezing
+2,  The room has colourfull wallpaper, balloons and a happy birthday sign.
+3,  A stannis baratheon piniata
+4,  It is a sunny garden
+5,  There is a big birthday cake in the room. It is covered in 19 candles and says Happy Birthday Zak!!!
