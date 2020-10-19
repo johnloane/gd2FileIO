@@ -34,7 +34,7 @@ public class App
             }
 
             Map<String, Integer> exits = locations.get(loc).getExits();
-            System.out.println("Available exists are: ");
+            System.out.println("Available exits are: ");
             for(String exit: exits.keySet())
             {
                 System.out.println(exit + ", ");
@@ -57,6 +57,7 @@ public class App
                     }
                 }
             }
+            System.out.println(direction);
             if(direction.equals("Q"))
             {
                 loc = 0;

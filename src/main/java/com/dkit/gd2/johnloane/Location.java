@@ -40,4 +40,9 @@ public class Location
 
     //No setters. We don't want people to be able to change
     //the values - they are final
+
+    protected void addExit(String direction, int location)
+    {
+        exits.put(direction, location);
+    }
 }

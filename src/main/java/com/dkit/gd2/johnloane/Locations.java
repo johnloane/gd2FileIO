@@ -115,13 +115,21 @@ public class Locations implements Map<Integer, Location>
             fileScanner.useDelimiter(",");
             while(fileScanner.hasNextLine())
             {
-                int location = fileScanner.nextInt();
-                fileScanner.skip(fileScanner.delimiter());
-                String direction = fileScanner.next();
-                fileScanner.skip(fileScanner.delimiter());
-                String dest = fileScanner.nextLine();
-                int destination = Integer.parseInt(dest.trim());
+//                int location = fileScanner.nextInt();
+//                fileScanner.skip(fileScanner.delimiter());
+//                String direction = fileScanner.next();
+//                fileScanner.skip(fileScanner.delimiter());
+//                String dest = fileScanner.nextLine();
+//                int destination = Integer.parseInt(dest.trim());
+                String input = fileScanner.nextLine();
+                String[] data = input.split(",");
+                int location = Integer.parseInt(data[0]);
+                String direction = data[1].trim();
+                int destination = Integer.parseInt(data[2].trim());
+
                 System.out.println(location + ": " + direction + ": " + destination);
+                Location loc = locations.get(location);
+                loc.addExit(direction, destination);
             }
         }
         catch(FileNotFoundException fne)
