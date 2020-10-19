@@ -13,8 +13,8 @@ public class Locations implements Map<Integer, Location>
         //Let's redo this using try with resources
         //Edit the code below to also write out the exits to a file
         //called directions.txt -> 1, W, 2, 1, E, 3, 1, N, 5, 1, S, 4
-        try(FileWriter locationFile = new FileWriter("locations.txt");
-            FileWriter directionsFile = new FileWriter("directions.txt"))
+        try(BufferedWriter locationFile = new BufferedWriter(new FileWriter("locations.txt"));
+            BufferedWriter directionsFile = new BufferedWriter(new FileWriter("directions.txt")))
         {
             for(Location location: locations.values())
             {
@@ -79,70 +79,117 @@ public class Locations implements Map<Integer, Location>
 
     static
     {
-        Scanner fileScanner = null;
-        try
+        /*
+        Challenge to rewrite the code below to move from
+        try, catch, finally to try with resources
+        Hopefully you will notice that you write less code
+        with try with resources
+         */
+
+        try(Scanner fileScanner=new Scanner(new BufferedReader(new FileReader("locations_big.txt"))))
         {
-            fileScanner = new Scanner(new FileReader("locations.txt"));
-            fileScanner.useDelimiter(",");
             while(fileScanner.hasNextLine())
             {
-                int location = fileScanner.nextInt();
-                fileScanner.skip(fileScanner.delimiter());
-                String description = fileScanner.nextLine();
-                System.out.println("Imported location: " + location + ": " + description);
+                //Read in and parse a line at a time
+                String input = fileScanner.nextLine();
+                String[] data = input.split(",");
+                int location = Integer.parseInt(data[0]);
+                String description = data[1];
                 Map<String, Integer> tempExit = new HashMap<>();
                 locations.put(location, new Location(location, description, tempExit));
             }
         }
         catch(FileNotFoundException fne)
         {
-            fne.printStackTrace();
+            System.out.println("Could not open the file");
         }
-        finally
+
+        //Now read the exits
+        try(Scanner fileScanner=new Scanner(new BufferedReader(new FileReader("directions_big.txt"))))
         {
-            if(fileScanner != null)
+            String input;
+            while(fileScanner.hasNextLine())
             {
-                fileScanner.close();
+                input = fileScanner.nextLine();
+                String[] data = input.split(",");
+                int loc = Integer.parseInt(data[0]);
+                String direction = data[1];
+                int destination = Integer.parseInt(data[2]);
+
+                System.out.println(loc + ": " + direction + ": " + destination);
+                Location location = locations.get(loc);
+                location.addExit(direction, destination);
             }
         }
+        catch(FileNotFoundException fne)
+        {
+            System.out.println("Problem opening directions.txt");
+        }
+
+//        Scanner fileScanner = null;
+//        try
+//        {
+//            fileScanner = new Scanner(new FileReader("locations_big.txt"));
+//            fileScanner.useDelimiter(",");
+//            while(fileScanner.hasNextLine())
+//            {
+//                int location = fileScanner.nextInt();
+//                fileScanner.skip(fileScanner.delimiter());
+//                String description = fileScanner.nextLine();
+//                System.out.println("Imported location: " + location + ": " + description);
+//                Map<String, Integer> tempExit = new HashMap<>();
+//                locations.put(location, new Location(location, description, tempExit));
+//            }
+//        }
+//        catch(FileNotFoundException fne)
+//        {
+//            fne.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(fileScanner != null)
+//            {
+//                fileScanner.close();
+//            }
+//        }
 
         //See can you read in the exits
         //Use try, catch, finally
 
-        try
-        {
-            fileScanner = new Scanner(new BufferedReader(new FileReader("directions.txt")));
-            fileScanner.useDelimiter(",");
-            while(fileScanner.hasNextLine())
-            {
+//        try
+//        {
+//            fileScanner = new Scanner(new BufferedReader(new FileReader("directions_big.txt")));
+//            fileScanner.useDelimiter(",");
+//            while(fileScanner.hasNextLine())
+//            {
 //                int location = fileScanner.nextInt();
 //                fileScanner.skip(fileScanner.delimiter());
 //                String direction = fileScanner.next();
 //                fileScanner.skip(fileScanner.delimiter());
 //                String dest = fileScanner.nextLine();
 //                int destination = Integer.parseInt(dest.trim());
-                String input = fileScanner.nextLine();
-                String[] data = input.split(",");
-                int location = Integer.parseInt(data[0]);
-                String direction = data[1].trim();
-                int destination = Integer.parseInt(data[2].trim());
-
-                System.out.println(location + ": " + direction + ": " + destination);
-                Location loc = locations.get(location);
-                loc.addExit(direction, destination);
-            }
-        }
-        catch(FileNotFoundException fne)
-        {
-            fne.printStackTrace();
-        }
-        finally
-        {
-            if(fileScanner != null)
-            {
-                fileScanner.close();
-            }
-        }
+//                String input = fileScanner.nextLine();
+//                String[] data = input.split(",");
+//                int location = Integer.parseInt(data[0]);
+//                String direction = data[1].trim();
+//                int destination = Integer.parseInt(data[2].trim());
+//
+//                System.out.println(location + ": " + direction + ": " + destination);
+//                Location loc = locations.get(location);
+//                loc.addExit(direction, destination);
+//            }
+//        }
+//        catch(FileNotFoundException fne)
+//        {
+//            fne.printStackTrace();
+//        }
+//        finally
+//        {
+//            if(fileScanner != null)
+//            {
+//                fileScanner.close();
+//            }
+//        }
 
         // North -> 1
         // East -> 2
